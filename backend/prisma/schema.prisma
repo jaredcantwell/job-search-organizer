@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contacts     Contact[]
+  applications Application[]
+  tasks        Task[]
+  documents    Document[]
+}
+
+model Contact {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  email       String?
+  phone       String?
+  company     String?
+  position    String?
+  linkedinUrl String?
+  notes       String?
+  lastContact DateTime?
+  nextContact DateTime?
+  type        ContactType @default(OTHER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  communications Communication[]
+  applications  Application[]
+  tasks         Task[]
+}
+
+model Application {
+  id           String   @id @default(cuid())
+  userId       String
+  company      String
+  position     String
+  location     String?
+  salary       String?
+  jobUrl       String?
+  description  String?
+  status       ApplicationStatus @default(INTERESTED)
+  appliedDate  DateTime?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contact      Contact?     @relation(fields: [contactId], references: [id])
+  contactId    String?
+  interviews   Interview[]
+  documents    Document[]
+  tasks        Task[]
+}
+
+model Interview {
+  id            String   @id @default(cuid())
+  applicationId String
+  type          InterviewType
+  scheduledAt   DateTime
+  duration      Int? // in minutes
+  location      String?
+  interviewers  String[]
+  notes         String?
+  outcome       String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+}
+
+model Communication {
+  id        String   @id @default(cuid())
+  contactId String
+  type      CommunicationType
+  subject   String?
+  content   String?
+  date      DateTime @default(now())
+  duration  Int?     // minutes
+  location  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  contact         Contact          @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  followUpActions FollowUpAction[]
+}
+
+model Task {
+  id            String   @id @default(cuid())
+  userId        String
+  title         String
+  description   String?
+  dueDate       DateTime?
+  completed     Boolean  @default(false)
+  priority      Priority @default(MEDIUM)
+  category      TaskCategory @default(OTHER)
+  applicationId String?
+  contactId     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application Application? @relation(fields: [applicationId], references: [id])
+  contact     Contact?     @relation(fields: [contactId], references: [id], onDelete: Cascade)
+}
+
+model Document {
+  id            String   @id @default(cuid())
+  userId        String
+  applicationId String?
+  type          DocumentType
+  name          String
+  url           String
+  version       Int      @default(1)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  application Application? @relation(fields: [applicationId], references: [id])
+}
+
+model FollowUpAction {
+  id              String   @id @default(cuid())
+  communicationId String
+  description     String
+  dueDate         DateTime?
+  completed       Boolean  @default(false)
+  priority        Priority @default(MEDIUM)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  communication Communication @relation(fields: [communicationId], references: [id], onDelete: Cascade)
+}
+
+// Enums
+enum ContactType {
+  RECRUITER
+  HIRING_MANAGER
+  REFERRAL
+  COLLEAGUE
+  OTHER
+}
+
+enum ApplicationStatus {
+  INTERESTED
+  APPLIED
+  SCREENING
+  INTERVIEWING
+  OFFER
+  REJECTED
+  WITHDRAWN
+  ACCEPTED
+}
+
+enum InterviewType {
+  PHONE_SCREEN
+  TECHNICAL
+  BEHAVIORAL
+  ONSITE
+  FINAL
+  OTHER
+}
+
+enum CommunicationType {
+  EMAIL
+  PHONE
+  LINKEDIN
+  TEXT
+  MEETING
+  OTHER
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskCategory {
+  APPLICATION
+  FOLLOW_UP
+  INTERVIEW_PREP
+  NETWORKING
+  RESUME
+  OTHER
+}
+
+enum DocumentType {
+  RESUME
+  COVER_LETTER
+  PORTFOLIO
+  REFERENCE
+  OTHER
+}

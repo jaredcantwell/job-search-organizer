@@ -1,0 +1,275 @@
+{
+  "contacts": [
+    {
+      "name": "Sarah Chen",
+      "company": "TechFlow Innovations", 
+      "position": "Senior Engineering Manager",
+      "linkedinUrl": "https://linkedin.com/in/sarahchen",
+      "notes": "Met at the Bay Area Tech Meetup. Very impressive background in scaling engineering teams. Mentioned they're expanding their platform team and looking for experienced full-stack developers. Strong advocate for remote work and modern development practices.",
+      "communications": [
+        {
+          "type": "MEETING",
+          "subject": "Coffee chat about TechFlow opportunities",
+          "content": "Had a great 45-minute conversation about TechFlow's engineering culture and growth plans. Sarah mentioned they're building a new microservices platform and need someone with React/Node.js experience. She's impressed with my background and wants to set up a technical interview. Company culture seems very collaborative with strong emphasis on work-life balance.",
+          "date": "2025-01-05T15:00:00.000Z",
+          "duration": 45,
+          "location": "Blue Bottle Coffee, SOMA",
+          "followUpActions": [
+            {
+              "description": "Send resume and portfolio links",
+              "dueDate": "2025-01-06T09:00:00.000Z",
+              "priority": "HIGH",
+              "completed": true
+            },
+            {
+              "description": "Prepare for technical interview covering React, Node.js, and system design",
+              "dueDate": "2025-01-12T09:00:00.000Z", 
+              "priority": "HIGH",
+              "completed": false
+            }
+          ]
+        },
+        {
+          "type": "EMAIL",
+          "subject": "Thank you + Resume attached",
+          "content": "Thank you for taking the time to meet with me today. I really enjoyed learning about TechFlow's engineering challenges and vision for the platform team. As discussed, I'm attaching my resume and links to my recent projects. Looking forward to the technical interview next week!",
+          "date": "2025-01-05T18:30:00.000Z",
+          "followUpActions": []
+        },
+        {
+          "type": "MEETING",
+          "subject": "Technical Interview - Platform Team",
+          "content": "Technical interview scheduled with the platform team. Will cover React ecosystem, Node.js best practices, microservices architecture, and a system design component.",
+          "date": "2025-01-15T10:00:00.000Z",
+          "duration": 90,
+          "location": "TechFlow Office, 123 Mission St",
+          "followUpActions": [
+            {
+              "description": "Review system design patterns and microservices best practices",
+              "dueDate": "2025-01-14T09:00:00.000Z",
+              "priority": "HIGH", 
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Marcus Rodriguez",
+      "company": "DataVantage Corp",
+      "position": "VP of Engineering",
+      "linkedinUrl": "https://linkedin.com/in/marcusrodriguez",
+      "notes": "Connected through Alex Kim's referral. DataVantage is a fast-growing analytics platform company. Marcus leads a team of 40+ engineers and is known for building strong engineering cultures. Company went through Series B last year.",
+      "communications": [
+        {
+          "type": "LINKEDIN",
+          "subject": "Introduction from Alex Kim",
+          "content": "Alex Kim suggested I reach out regarding potential opportunities at DataVantage. I'm very interested in your approach to building scalable analytics platforms and would love to learn more about your engineering team's challenges and growth plans.",
+          "date": "2025-01-03T14:20:00.000Z",
+          "followUpActions": [
+            {
+              "description": "Follow up if no response in 1 week",
+              "dueDate": "2025-01-10T09:00:00.000Z",
+              "priority": "MEDIUM",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Jessica Wang",
+      "company": "CloudScale Systems",
+      "position": "Director of Product Engineering",
+      "linkedinUrl": "https://linkedin.com/in/jessicawang",
+      "notes": "Former colleague from Zenitech. Now building the next generation of cloud infrastructure tools. CloudScale recently raised $50M Series A and is scaling rapidly. Jessica mentioned they need senior full-stack engineers for their dashboard and API platform.",
+      "communications": [
+        {
+          "type": "PHONE",
+          "subject": "Catch-up call about CloudScale opportunities",
+          "content": "Great catch-up call with Jessica. CloudScale is doing really well and they're looking for experienced engineers to join their platform team. The role would involve building customer-facing dashboards and internal tools. Tech stack is React, TypeScript, Go, and Kubernetes. Remote-friendly with quarterly in-person meetings.",
+          "date": "2025-01-02T16:00:00.000Z",
+          "duration": 30,
+          "followUpActions": [
+            {
+              "description": "Send updated resume highlighting relevant experience",
+              "dueDate": "2025-01-03T17:00:00.000Z",
+              "priority": "HIGH",
+              "completed": true
+            },
+            {
+              "description": "Research CloudScale's product offering and recent funding",
+              "dueDate": "2025-01-04T09:00:00.000Z",
+              "priority": "MEDIUM",
+              "completed": true
+            }
+          ]
+        },
+        {
+          "type": "EMAIL",
+          "subject": "Resume + Questions about CloudScale role",
+          "content": "Thanks again for the call yesterday! I'm very excited about the opportunity to work with CloudScale. I've attached my updated resume and done some research on your recent product updates. I have a few follow-up questions about the team structure and development process when you have a moment.",
+          "date": "2025-01-03T09:15:00.000Z",
+          "followUpActions": [
+            {
+              "description": "Schedule technical interview with the team",
+              "dueDate": "2025-01-10T09:00:00.000Z",
+              "priority": "HIGH",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Alex Kim",
+      "company": "Innovation Labs",
+      "position": "Senior Software Engineer",
+      "linkedinUrl": "https://linkedin.com/in/alexkim",
+      "notes": "Former bootcamp classmate, now at Innovation Labs. Great connection for referrals and industry insights. Alex has been very helpful in providing feedback on my resume and interview preparation. Works on machine learning infrastructure.",
+      "communications": [
+        {
+          "type": "TEXT",
+          "subject": "Quick networking favor",
+          "content": "Hey Alex! Hope you're doing well. I'm actively job searching and wondered if you had any connections at DataVantage Corp or similar companies? Would love to buy you coffee and catch up soon!",
+          "date": "2025-01-01T10:30:00.000Z",
+          "followUpActions": [
+            {
+              "description": "Set up coffee meeting to discuss referral opportunities",
+              "dueDate": "2025-01-08T09:00:00.000Z",
+              "priority": "MEDIUM",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Emily Foster",
+      "company": "NextGen Robotics",
+      "position": "CTO",
+      "notes": "Met at Women in Tech conference. NextGen is working on autonomous delivery robots and has an interesting tech stack. Emily was keynote speaker and seems very approachable. Company is Series A stage and growing their software team.",
+      "communications": [
+        {
+          "type": "EMAIL",
+          "subject": "Follow-up from Women in Tech Conference",
+          "content": "Hi Emily, I really enjoyed your keynote about building diverse engineering teams at NextGen Robotics. Your approach to technical leadership really resonated with me. I'd love to learn more about NextGen's engineering challenges, especially around the software that powers your delivery robots.",
+          "date": "2024-12-28T11:45:00.000Z",
+          "followUpActions": [
+            {
+              "description": "Research NextGen Robotics' recent developments and tech stack",
+              "dueDate": "2025-01-05T09:00:00.000Z",
+              "priority": "LOW",
+              "completed": false
+            },
+            {
+              "description": "Follow up in 2 weeks if no response",
+              "dueDate": "2025-01-11T09:00:00.000Z",
+              "priority": "LOW",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "David Chen",
+      "company": "Freelance",
+      "position": "Technical Consultant",
+      "linkedinUrl": "https://linkedin.com/in/davidchen",
+      "notes": "Experienced freelance developer and consultant. Great resource for contract work opportunities and industry insights. Has connections at many startups and mid-size companies in the Bay Area. Specializes in React and cloud architecture.",
+      "communications": [
+        {
+          "type": "MEETING",
+          "subject": "Freelance opportunities discussion",
+          "content": "Met with David to discuss potential freelance and contract opportunities while job searching. He has several clients looking for short-term React/Node.js help. Good backup plan and way to keep skills sharp. He also offered to make introductions to his network.",
+          "date": "2024-12-30T14:00:00.000Z",
+          "duration": 60,
+          "location": "Philz Coffee, Mission",
+          "followUpActions": [
+            {
+              "description": "Send portfolio and rate expectations for freelance work",
+              "dueDate": "2025-01-02T09:00:00.000Z",
+              "priority": "MEDIUM",
+              "completed": true
+            },
+            {
+              "description": "Ask for introductions to his startup contacts",
+              "dueDate": "2025-01-09T09:00:00.000Z",
+              "priority": "MEDIUM",
+              "completed": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tasks": [
+    {
+      "title": "Update portfolio with latest projects",
+      "description": "Add the React dashboard project and the Node.js microservice I built last month. Include detailed case studies with tech stack, challenges faced, and solutions implemented.",
+      "priority": "HIGH",
+      "category": "RESUME",
+      "dueDate": "2025-01-06T17:00:00.000Z",
+      "completed": false
+    },
+    {
+      "title": "Practice system design interviews",
+      "description": "Review common system design patterns: microservices, caching strategies, database scaling, load balancing. Practice with online resources and mock interviews.",
+      "priority": "HIGH", 
+      "category": "INTERVIEW_PREP",
+      "dueDate": "2025-01-10T09:00:00.000Z",
+      "completed": false
+    },
+    {
+      "title": "Research TechFlow's recent product launches",
+      "description": "Study their new API platform release and technical blog posts to prepare for upcoming interview. Understand their tech stack and engineering challenges.",
+      "priority": "HIGH",
+      "category": "INTERVIEW_PREP",
+      "dueDate": "2025-01-12T09:00:00.000Z",
+      "completed": false,
+      "contactName": "Sarah Chen"
+    },
+    {
+      "title": "Attend JavaScript meetup next week",
+      "description": "Bay Area JavaScript meetup on Jan 9th. Good networking opportunity and chance to learn about new frameworks. Several companies will be there recruiting.",
+      "priority": "MEDIUM",
+      "category": "NETWORKING",
+      "dueDate": "2025-01-09T18:00:00.000Z",
+      "completed": false
+    },
+    {
+      "title": "Update LinkedIn with recent project highlights",
+      "description": "Refresh LinkedIn profile with latest accomplishments and projects. Add skills section and get recommendations from former colleagues.",
+      "priority": "MEDIUM",
+      "category": "RESUME",
+      "dueDate": "2025-01-07T09:00:00.000Z",
+      "completed": false
+    },
+    {
+      "title": "Prepare questions for CloudScale interview",
+      "description": "Develop thoughtful questions about team structure, development process, growth opportunities, and technical challenges. Show genuine interest in the company.",
+      "priority": "HIGH",
+      "category": "INTERVIEW_PREP",
+      "dueDate": "2025-01-13T09:00:00.000Z",
+      "completed": false,
+      "contactName": "Jessica Wang"
+    },
+    {
+      "title": "Research salary ranges for senior developer roles",
+      "description": "Check Glassdoor, Levels.fyi, and other sources for current market rates in Bay Area. Factor in company size, stage, and benefits packages.",
+      "priority": "MEDIUM",
+      "category": "APPLICATION",
+      "dueDate": "2025-01-08T09:00:00.000Z",
+      "completed": true
+    },
+    {
+      "title": "Set up mock interviews with former colleagues",
+      "description": "Reach out to 2-3 former colleagues to practice technical and behavioral interviews. Get feedback on communication and presentation skills.",
+      "priority": "MEDIUM",
+      "category": "INTERVIEW_PREP",
+      "dueDate": "2025-01-11T09:00:00.000Z",
+      "completed": false
+    }
+  ]
+}
