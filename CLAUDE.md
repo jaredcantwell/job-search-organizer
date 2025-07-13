@@ -88,6 +88,37 @@ Backend requires `.env` file with:
 2. Run `cd backend && npm run prisma:migrate dev`
 3. Update TypeScript types will be auto-generated
 
+## Git & PR Management
+
+### Replying to PR Review Comments
+When addressing PR feedback, reply directly to existing comment threads rather than creating new comments:
+
+```bash
+# Reply to a specific review comment thread
+gh api repos/owner/repo/pulls/PR_NUMBER/comments/COMMENT_ID/replies -X POST -f body="Your reply text"
+```
+
+**Important Notes:**
+- Use the exact comment ID from the original review comment
+- This creates proper threaded replies (with `in_reply_to_id` field)
+- Standard `gh pr comment` creates new standalone comments, not replies
+- Always address all PR feedback with direct replies for proper audit trail
+
+### Commit Message Format
+Follow the established pattern for commit messages:
+```
+Brief summary of changes
+
+## Detailed Description
+- List major changes
+- Include technical details
+- Reference any breaking changes
+
+🤖 Generated with [Claude Code](https://claude.ai/code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
 ## Notes
 
 - Frontend proxies `/api` requests to backend (configured in Vite)
