@@ -1,11 +1,146 @@
 {
+  "companies": [
+    {
+      "name": "TechFlow Innovations",
+      "website": "https://techflow.io",
+      "industry": "Enterprise Software",
+      "size": "250-500 employees",
+      "location": "San Francisco, CA",
+      "description": "TechFlow Innovations builds next-generation microservices platforms for enterprise clients. Founded in 2018, they've grown rapidly and now serve Fortune 500 companies with their scalable architecture solutions.",
+      "notes": "Strong engineering culture, remote-friendly, recently raised Series B. Platform team is expanding rapidly.",
+      "founded": 2018,
+      "research": [
+        {
+          "title": "Recent API Platform Launch",
+          "content": "TechFlow just launched their new unified API platform that allows enterprise clients to manage microservices at scale. The platform includes automatic service discovery, load balancing, and monitoring. Built with React, Node.js, and Kubernetes. They've seen 300% growth in adoption since launch.",
+          "source": "TechFlow Engineering Blog",
+          "tags": ["product launch", "api platform", "microservices"],
+          "date": "2025-01-01T00:00:00.000Z"
+        },
+        {
+          "title": "Engineering Team Growth",
+          "content": "TechFlow is expanding their engineering team by 50% this year, with particular focus on platform and infrastructure roles. They're looking for senior engineers with React/Node.js experience and microservices architecture knowledge. Company culture emphasizes work-life balance and continuous learning.",
+          "source": "Sarah Chen - Engineering Manager",
+          "tags": ["hiring", "team growth", "culture"],
+          "date": "2025-01-05T00:00:00.000Z"
+        },
+        {
+          "title": "Technical Stack Analysis",
+          "content": "Frontend: React 18, TypeScript, Vite, TailwindCSS. Backend: Node.js, Express, GraphQL, PostgreSQL. Infrastructure: Kubernetes, Docker, AWS, Terraform. Monitoring: Prometheus, Grafana, Datadog. Strong focus on developer experience and modern tooling.",
+          "source": "TechFlow Careers Page",
+          "tags": ["tech stack", "react", "nodejs", "kubernetes"],
+          "date": "2025-01-03T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "DataVantage Corp",
+      "website": "https://datavantage.com",
+      "industry": "Data Analytics",
+      "size": "500-1000 employees",
+      "location": "Palo Alto, CA",
+      "description": "DataVantage provides real-time analytics and business intelligence solutions for enterprise customers. Their platform processes billions of data points daily and provides actionable insights through advanced machine learning algorithms.",
+      "notes": "Series B funded, growing rapidly. Strong focus on scalable analytics platform. VP of Engineering Marcus Rodriguez leads 40+ person team.",
+      "founded": 2016,
+      "research": [
+        {
+          "title": "Series B Funding Round",
+          "content": "DataVantage raised $75M in Series B funding led by Andreessen Horowitz. The funding will be used to expand their engineering team and accelerate product development. They plan to double their workforce over the next 18 months.",
+          "source": "TechCrunch",
+          "tags": ["funding", "series b", "expansion"],
+          "date": "2024-11-15T00:00:00.000Z"
+        },
+        {
+          "title": "Real-time Analytics Platform",
+          "content": "DataVantage's core platform can process over 1 billion events per day with sub-second latency. Built on modern streaming architecture using Apache Kafka, Apache Flink, and ClickHouse. Frontend dashboards built with React and D3.js for complex data visualizations.",
+          "source": "DataVantage Technical Blog",
+          "tags": ["analytics", "real-time", "kafka", "react"],
+          "date": "2024-12-20T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "CloudScale Systems",
+      "website": "https://cloudscale.dev",
+      "industry": "Cloud Infrastructure",
+      "size": "100-250 employees",
+      "location": "Seattle, WA",
+      "description": "CloudScale Systems builds next-generation cloud infrastructure tools for developers and enterprises. Their platform simplifies Kubernetes management and provides automated scaling, monitoring, and deployment solutions.",
+      "notes": "Series A funded, $50M raised. Remote-friendly culture with quarterly in-person meetings. Strong technical leadership.",
+      "founded": 2020,
+      "research": [
+        {
+          "title": "Series A Funding Announcement",
+          "content": "CloudScale raised $50M Series A led by Sequoia Capital. The company plans to use the funding to expand their product offering and grow their engineering team. They're particularly focused on hiring senior full-stack engineers for their dashboard and API platform.",
+          "source": "VentureBeat",
+          "tags": ["funding", "series a", "hiring"],
+          "date": "2024-09-12T00:00:00.000Z"
+        },
+        {
+          "title": "Product Architecture Deep Dive",
+          "content": "CloudScale's platform is built with React and TypeScript on the frontend, Go microservices on the backend, and runs on Kubernetes. They provide a unified dashboard for managing cloud resources across multiple providers. Strong emphasis on developer experience and automation.",
+          "source": "CloudScale Documentation",
+          "tags": ["architecture", "react", "typescript", "go", "kubernetes"],
+          "date": "2024-12-01T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "NextGen Robotics",
+      "website": "https://nextgenrobotics.ai",
+      "industry": "Robotics & AI",
+      "size": "50-100 employees",
+      "location": "Boston, MA",
+      "description": "NextGen Robotics develops autonomous delivery robots for last-mile logistics. Their robots use advanced AI and computer vision to navigate urban environments safely and efficiently.",
+      "notes": "Series A stage, growing software team. CTO Emily Foster is very approachable and focuses on diverse engineering teams.",
+      "founded": 2021,
+      "research": [
+        {
+          "title": "Autonomous Delivery Robot Launch",
+          "content": "NextGen launched their first commercial delivery robots in Boston and San Francisco. The robots use LIDAR, computer vision, and machine learning for navigation. Software stack includes Python for AI/ML, React for fleet management dashboard, and real-time communication systems.",
+          "source": "NextGen Press Release",
+          "tags": ["robotics", "ai", "computer vision", "python", "react"],
+          "date": "2024-10-15T00:00:00.000Z"
+        },
+        {
+          "title": "Diversity in Engineering",
+          "content": "CTO Emily Foster spoke at Women in Tech conference about building diverse engineering teams. NextGen has achieved 40% female engineering staff and emphasizes inclusive hiring practices. They offer mentorship programs and flexible work arrangements.",
+          "source": "Women in Tech Conference",
+          "tags": ["diversity", "culture", "hiring"],
+          "date": "2024-12-28T00:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "name": "Innovation Labs",
+      "website": "https://innovationlabs.tech",
+      "industry": "Machine Learning",
+      "size": "100-250 employees",
+      "location": "San Francisco, CA",
+      "description": "Innovation Labs focuses on machine learning infrastructure and MLOps solutions. They help companies deploy and scale ML models in production environments with their platform-as-a-service offering.",
+      "notes": "Stable company with strong technical team. Good place for gaining ML infrastructure experience.",
+      "founded": 2017,
+      "research": [
+        {
+          "title": "MLOps Platform Overview",
+          "content": "Innovation Labs' platform automates the entire ML lifecycle from training to deployment. Built with Python, TensorFlow, PyTorch, and Kubernetes. They provide APIs for model serving, monitoring, and A/B testing. Strong focus on scalability and reliability.",
+          "source": "Innovation Labs Product Page",
+          "tags": ["mlops", "machine learning", "python", "tensorflow", "kubernetes"],
+          "date": "2024-11-30T00:00:00.000Z"
+        }
+      ]
+    }
+  ],
   "contacts": [
     {
       "name": "Sarah Chen",
-      "company": "TechFlow Innovations", 
+      "email": "sarah.chen@techflow.io",
+      "phone": "+1-555-0123",
+      "companyName": "TechFlow Innovations",
       "position": "Senior Engineering Manager",
       "linkedinUrl": "https://linkedin.com/in/sarahchen",
       "notes": "Met at the Bay Area Tech Meetup. Very impressive background in scaling engineering teams. Mentioned they're expanding their platform team and looking for experienced full-stack developers. Strong advocate for remote work and modern development practices.",
+      "type": "HIRING_MANAGER",
       "communications": [
         {
           "type": "MEETING",
@@ -56,10 +191,12 @@
     },
     {
       "name": "Marcus Rodriguez",
-      "company": "DataVantage Corp",
+      "email": "marcus.rodriguez@datavantage.com",
+      "companyName": "DataVantage Corp",
       "position": "VP of Engineering",
       "linkedinUrl": "https://linkedin.com/in/marcusrodriguez",
       "notes": "Connected through Alex Kim's referral. DataVantage is a fast-growing analytics platform company. Marcus leads a team of 40+ engineers and is known for building strong engineering cultures. Company went through Series B last year.",
+      "type": "HIRING_MANAGER",
       "communications": [
         {
           "type": "LINKEDIN",
@@ -79,10 +216,13 @@
     },
     {
       "name": "Jessica Wang",
-      "company": "CloudScale Systems",
+      "email": "jessica.wang@cloudscale.dev",
+      "phone": "+1-555-0456",
+      "companyName": "CloudScale Systems",
       "position": "Director of Product Engineering",
       "linkedinUrl": "https://linkedin.com/in/jessicawang",
       "notes": "Former colleague from Zenitech. Now building the next generation of cloud infrastructure tools. CloudScale recently raised $50M Series A and is scaling rapidly. Jessica mentioned they need senior full-stack engineers for their dashboard and API platform.",
+      "type": "COLLEAGUE",
       "communications": [
         {
           "type": "PHONE",
@@ -123,10 +263,13 @@
     },
     {
       "name": "Alex Kim",
-      "company": "Innovation Labs",
+      "email": "alex.kim@innovationlabs.tech",
+      "phone": "+1-555-0789",
+      "companyName": "Innovation Labs",
       "position": "Senior Software Engineer",
       "linkedinUrl": "https://linkedin.com/in/alexkim",
       "notes": "Former bootcamp classmate, now at Innovation Labs. Great connection for referrals and industry insights. Alex has been very helpful in providing feedback on my resume and interview preparation. Works on machine learning infrastructure.",
+      "type": "COLLEAGUE",
       "communications": [
         {
           "type": "TEXT",
@@ -146,9 +289,11 @@
     },
     {
       "name": "Emily Foster",
-      "company": "NextGen Robotics",
+      "email": "emily.foster@nextgenrobotics.ai",
+      "companyName": "NextGen Robotics",
       "position": "CTO",
       "notes": "Met at Women in Tech conference. NextGen is working on autonomous delivery robots and has an interesting tech stack. Emily was keynote speaker and seems very approachable. Company is Series A stage and growing their software team.",
+      "type": "HIRING_MANAGER",
       "communications": [
         {
           "type": "EMAIL",
@@ -174,10 +319,13 @@
     },
     {
       "name": "David Chen",
+      "email": "david@freelancetech.com",
+      "phone": "+1-555-0321",
       "company": "Freelance",
       "position": "Technical Consultant",
       "linkedinUrl": "https://linkedin.com/in/davidchen",
       "notes": "Experienced freelance developer and consultant. Great resource for contract work opportunities and industry insights. Has connections at many startups and mid-size companies in the Bay Area. Specializes in React and cloud architecture.",
+      "type": "OTHER",
       "communications": [
         {
           "type": "MEETING",

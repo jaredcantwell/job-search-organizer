@@ -8,6 +8,7 @@ interface LayoutProps {
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: '📊' },
+  { name: 'Companies', href: '/companies', icon: '🏢' },
   { name: 'Contacts', href: '/contacts', icon: '👥' },
   { name: 'Meetings', href: '/meetings', icon: '📅' },
   { name: 'Tasks', href: '/tasks', icon: '✅' },
@@ -33,7 +34,7 @@ export default function Layout({ children }: LayoutProps) {
         
         <nav className="flex-1 px-4 py-4 space-y-2">
           {navigation.map((item) => {
-            const isActive = location.pathname === item.href
+            const isActive = location.pathname === item.href || location.pathname.startsWith(item.href + '/')
             return (
               <Link
                 key={item.name}

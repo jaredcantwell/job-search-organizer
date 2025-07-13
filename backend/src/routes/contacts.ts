@@ -10,8 +10,13 @@ router.use(authenticate);
 
 const createContactSchema = z.object({
   name: z.string().min(1),
+  email: z.string().email().optional().or(z.literal('')),
+  phone: z.string().optional(),
+  companyId: z.string().optional().or(z.literal('')),
+  position: z.string().optional(),
   linkedinUrl: z.string().url().optional().or(z.literal('')),
   notes: z.string().optional(),
+  type: z.enum(['RECRUITER', 'HIRING_MANAGER', 'REFERRAL', 'COLLEAGUE', 'OTHER']).default('OTHER'),
 });
 
 const updateContactSchema = createContactSchema.partial();
@@ -26,10 +31,21 @@ router.get('/', async (req: AuthRequest, res) => {
       ...(search && {
         OR: [
           { name: { contains: search as string, mode: 'insensitive' } },
+          { email: { contains: search as string, mode: 'insensitive' } },
           { company: { contains: search as string, mode: 'insensitive' } },
+          { position: { contains: search as string, mode: 'insensitive' } },
           { notes: { contains: search as string, mode: 'insensitive' } },
+          { companyRef: { name: { contains: search as string, mode: 'insensitive' } } },
         ],
       }),
+    },
+    include: {
+      companyRef: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
     orderBy: { updatedAt: 'desc' },
   });
@@ -39,11 +55,22 @@ router.get('/', async (req: AuthRequest, res) => {
 
 // Get a single contact
 router.get('/:id', async (req: AuthRequest, res) => {
+  const { include } = req.query;
+  const includeCompany = include === 'company';
+
   const contact = await prisma.contact.findFirst({
     where: {
       id: req.params.id,
       userId: req.userId!,
     },
+    include: includeCompany ? {
+      companyRef: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    } : undefined,
   });
 
   if (!contact) {
@@ -59,8 +86,14 @@ router.post('/', async (req: AuthRequest, res) => {
 
   const contact = await prisma.contact.create({
     data: {
-      ...data,
+      name: data.name,
+      email: data.email || null,
+      phone: data.phone || null,
+      companyId: data.companyId || null,
+      position: data.position || null,
       linkedinUrl: data.linkedinUrl || null,
+      notes: data.notes || null,
+      type: data.type,
       userId: req.userId!,
     },
   });
@@ -86,8 +119,14 @@ router.put('/:id', async (req: AuthRequest, res) => {
   const updated = await prisma.contact.update({
     where: { id: req.params.id },
     data: {
-      ...data,
-      linkedinUrl: data.linkedinUrl === '' ? null : data.linkedinUrl,
+      ...(data.name !== undefined && { name: data.name }),
+      ...(data.email !== undefined && { email: data.email || null }),
+      ...(data.phone !== undefined && { phone: data.phone || null }),
+      ...(data.companyId !== undefined && { companyId: data.companyId || null }),
+      ...(data.position !== undefined && { position: data.position || null }),
+      ...(data.linkedinUrl !== undefined && { linkedinUrl: data.linkedinUrl || null }),
+      ...(data.notes !== undefined && { notes: data.notes || null }),
+      ...(data.type !== undefined && { type: data.type }),
     },
   });
 

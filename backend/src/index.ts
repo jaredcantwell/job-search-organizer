@@ -11,6 +11,8 @@ import { tasksRouter } from './routes/tasks';
 import { communicationsRouter } from './routes/communications';
 import { exportRouter } from './routes/export';
 import { importRouter } from './routes/import';
+import { researchRouter } from './routes/research';
+import { companiesRouter } from './routes/companies';
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.use('/api/tasks', tasksRouter);
 app.use('/api/communications', communicationsRouter);
 app.use('/api/export', exportRouter);
 app.use('/api/import', importRouter);
+app.use('/api/research', researchRouter);
+app.use('/api/companies', companiesRouter);
 
 // Error handling
 app.use(errorHandler);

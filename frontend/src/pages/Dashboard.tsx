@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { isToday, isThisWeek, isPast, isTomorrow, format } from 'date-fns'
 import Layout from '@/components/Layout'
+import Calendar from '@/components/Calendar'
 import { api } from '@/lib/api'
 
 interface DashboardStats {
@@ -31,6 +32,8 @@ export default function DashboardPage() {
   const navigate = useNavigate()
   const [isExporting, setIsExporting] = useState(false)
   const [isImporting, setIsImporting] = useState(false)
+  const [showCalendar, setShowCalendar] = useState(false)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
   const queryClient = useQueryClient()
 
   // Fetch dashboard statistics
@@ -88,6 +91,26 @@ export default function DashboardPage() {
       const response = await api.get('/communications/upcoming')
       return response.data.slice(0, 5) // Get next 5 meetings
     }
+  })
+
+  // Fetch all meetings for calendar (separate from widget)
+  const { data: allMeetings } = useQuery({
+    queryKey: ['all-meetings'],
+    queryFn: async () => {
+      const response = await api.get('/communications/upcoming')
+      return response.data // Get all meetings
+    },
+    enabled: showCalendar
+  })
+
+  // Fetch all tasks for calendar (separate from widget) 
+  const { data: allTasks } = useQuery({
+    queryKey: ['all-tasks'],
+    queryFn: async () => {
+      const response = await api.get('/tasks/unified?status=pending')
+      return response.data // Get all tasks
+    },
+    enabled: showCalendar
   })
 
 
@@ -175,7 +198,32 @@ export default function DashboardPage() {
   return (
     <Layout>
       <div className="p-6">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <button
+            onClick={() => setShowCalendar(!showCalendar)}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              showCalendar 
+                ? 'bg-indigo-600 text-white' 
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            📅 {showCalendar ? 'Hide' : 'Show'} Calendar
+          </button>
+        </div>
+
+        {/* Calendar View */}
+        {showCalendar && (
+          <div className="mb-8">
+            <Calendar 
+              tasks={allTasks || []} 
+              meetings={allMeetings || []}
+              currentMonth={currentMonth}
+              setCurrentMonth={setCurrentMonth}
+              navigate={navigate}
+            />
+          </div>
+        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Upcoming Meetings - Top Left */}
@@ -396,3 +444,4 @@ export default function DashboardPage() {
     </Layout>
   )
 }
+

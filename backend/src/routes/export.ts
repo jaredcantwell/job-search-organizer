@@ -27,6 +27,17 @@ router.get('/user-data', async (req: AuthRequest, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Get all companies with their research
+    const companies = await prisma.company.findMany({
+      where: { userId },
+      include: {
+        research: {
+          orderBy: { date: 'desc' },
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+
     // Get all contacts with their communications and follow-up actions
     const contacts = await prisma.contact.findMany({
       where: { userId },
@@ -38,6 +49,12 @@ router.get('/user-data', async (req: AuthRequest, res) => {
             },
           },
           orderBy: { date: 'desc' },
+        },
+        companyRef: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
       orderBy: { createdAt: 'asc' },
@@ -97,6 +114,7 @@ router.get('/user-data', async (req: AuthRequest, res) => {
       sum + contact.communications.reduce((commSum, comm) => commSum + comm.followUpActions.length, 0), 0
     );
     const totalInterviews = applications.reduce((sum, app) => sum + app.interviews.length, 0);
+    const totalResearch = companies.reduce((sum, company) => sum + company.research.length, 0);
 
     // Build export data structure
     const exportData = {
@@ -107,11 +125,13 @@ router.get('/user-data', async (req: AuthRequest, res) => {
         userName: user.name,
         userEmail: user.email,
         totalRecords: {
+          companies: companies.length,
           contacts: contacts.length,
           applications: applications.length,
           communications: totalCommunications,
           followUpActions: totalFollowUpActions,
           interviews: totalInterviews,
+          research: totalResearch,
           tasks: tasks.length,
           documents: documents.length,
         },
@@ -124,12 +144,37 @@ router.get('/user-data', async (req: AuthRequest, res) => {
           createdAt: user.createdAt,
           updatedAt: user.updatedAt,
         },
+        companies: companies.map(company => ({
+          id: company.id,
+          name: company.name,
+          website: company.website,
+          industry: company.industry,
+          size: company.size,
+          location: company.location,
+          description: company.description,
+          notes: company.notes,
+          founded: company.founded,
+          createdAt: company.createdAt,
+          updatedAt: company.updatedAt,
+          research: company.research.map(research => ({
+            id: research.id,
+            title: research.title,
+            content: research.content,
+            source: research.source,
+            tags: research.tags,
+            date: research.date,
+            createdAt: research.createdAt,
+            updatedAt: research.updatedAt,
+          })),
+        })),
         contacts: contacts.map(contact => ({
           id: contact.id,
           name: contact.name,
           email: contact.email,
           phone: contact.phone,
           company: contact.company,
+          companyId: contact.companyId,
+          companyRef: contact.companyRef,
           position: contact.position,
           linkedinUrl: contact.linkedinUrl,
           type: contact.type,

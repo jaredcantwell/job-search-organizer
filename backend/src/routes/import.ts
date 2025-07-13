@@ -10,12 +10,33 @@ router.use(authenticate);
 
 // Schema for import data validation
 const importSchema = z.object({
+  companies: z.array(z.object({
+    name: z.string(),
+    website: z.string().nullable().optional(),
+    industry: z.string().nullable().optional(),
+    size: z.string().nullable().optional(),
+    location: z.string().nullable().optional(),
+    description: z.string().nullable().optional(),
+    notes: z.string().nullable().optional(),
+    founded: z.number().nullable().optional(),
+    research: z.array(z.object({
+      title: z.string(),
+      content: z.string(),
+      source: z.string().nullable().optional(),
+      tags: z.array(z.string()).optional().default([]),
+      date: z.string(),
+    })).optional().default([]),
+  })).optional().default([]),
   contacts: z.array(z.object({
     name: z.string(),
-    company: z.string().nullable().optional(),
+    email: z.string().nullable().optional(),
+    phone: z.string().nullable().optional(),
+    company: z.string().nullable().optional(), // Legacy field
+    companyName: z.string().nullable().optional(), // New field to link to Company
     position: z.string().nullable().optional(),
     linkedinUrl: z.string().nullable().optional(),
     notes: z.string().nullable().optional(),
+    type: z.enum(['RECRUITER', 'HIRING_MANAGER', 'REFERRAL', 'COLLEAGUE', 'OTHER']).default('OTHER'),
     communications: z.array(z.object({
       type: z.enum(['EMAIL', 'PHONE', 'LINKEDIN', 'TEXT', 'MEETING', 'OTHER']),
       subject: z.string().nullable().optional(),
@@ -49,28 +70,79 @@ router.post('/', async (req: AuthRequest, res) => {
   // Use a transaction to ensure all data is imported atomically
   const result = await prisma.$transaction(async (tx) => {
     const contactMap = new Map<string, string>(); // name -> id mapping
+    const companyMap = new Map<string, string>(); // name -> id mapping
+    const createdCompanies = [];
+    const createdResearch = [];
     const createdContacts = [];
     const createdCommunications = [];
     const createdTasks = [];
     const createdFollowUpActions = [];
 
-    // 1. Create contacts first
+    // 1. Create companies first
+    for (const companyData of data.companies || []) {
+      const company = await tx.company.create({
+        data: {
+          userId: req.userId!,
+          name: companyData.name,
+          website: companyData.website || null,
+          industry: companyData.industry || null,
+          size: companyData.size || null,
+          location: companyData.location || null,
+          description: companyData.description || null,
+          notes: companyData.notes || null,
+          founded: companyData.founded || null,
+        },
+      });
+      
+      companyMap.set(companyData.name, company.id);
+      createdCompanies.push(company);
+
+      // Create research for this company
+      for (const researchData of companyData.research || []) {
+        const research = await tx.research.create({
+          data: {
+            userId: req.userId!,
+            companyId: company.id,
+            title: researchData.title,
+            content: researchData.content,
+            source: researchData.source || null,
+            tags: researchData.tags || [],
+            date: new Date(researchData.date),
+          },
+        });
+        
+        createdResearch.push(research);
+      }
+    }
+
+    // 2. Create contacts
     for (const contactData of data.contacts) {
+      let companyId = null;
+      
+      // Try to link to company if specified
+      if (contactData.companyName && companyMap.has(contactData.companyName)) {
+        companyId = companyMap.get(contactData.companyName)!;
+      }
+
       const contact = await tx.contact.create({
         data: {
           userId: req.userId!,
           name: contactData.name,
-          company: contactData.company || null,
+          email: contactData.email || null,
+          phone: contactData.phone || null,
+          company: contactData.company || null, // Legacy field
+          companyId: companyId,
           position: contactData.position || null,
           linkedinUrl: contactData.linkedinUrl || null,
           notes: contactData.notes || null,
+          type: contactData.type || 'OTHER',
         },
       });
       
       contactMap.set(contactData.name, contact.id);
       createdContacts.push(contact);
 
-      // 2. Create communications for this contact
+      // 3. Create communications for this contact
       for (const commData of contactData.communications || []) {
         const communication = await tx.communication.create({
           data: {
@@ -86,7 +158,7 @@ router.post('/', async (req: AuthRequest, res) => {
         
         createdCommunications.push(communication);
 
-        // 3. Create follow-up actions for this communication
+        // 4. Create follow-up actions for this communication
         for (const actionData of commData.followUpActions || []) {
           const followUpAction = await tx.followUpAction.create({
             data: {
@@ -103,7 +175,7 @@ router.post('/', async (req: AuthRequest, res) => {
       }
     }
 
-    // 4. Create standalone tasks
+    // 5. Create standalone tasks
     for (const taskData of data.tasks || []) {
       let contactId = null;
       
@@ -129,6 +201,8 @@ router.post('/', async (req: AuthRequest, res) => {
     }
 
     return {
+      companiesCreated: createdCompanies.length,
+      researchCreated: createdResearch.length,
       contactsCreated: createdContacts.length,
       communicationsCreated: createdCommunications.length,
       followUpActionsCreated: createdFollowUpActions.length,
