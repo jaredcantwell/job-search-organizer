@@ -1,0 +1,36 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Clipboard -->
+  <g fill="white" stroke="white" stroke-width="2">
+    <!-- Clipboard main body -->
+    <rect x="15" y="25" width="35" height="60" rx="6" fill="none" stroke-width="3"/>
+    
+    <!-- Clipboard clip -->
+    <rect x="25" y="15" width="15" height="8" rx="4" fill="white"/>
+    
+    <!-- Person icon inside clipboard -->
+    <circle cx="32.5" cy="40" r="5" fill="white"/>
+    <path d="M25 52 Q32.5 48 40 52 L40 58 L25 58 Z" fill="white"/>
+    
+    <!-- Checkmarks -->
+    <path d="M20 65 L24 69 L30 63" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    <path d="M20 75 L24 79 L30 73" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- Task lines -->
+    <rect x="33" y="66" width="12" height="2" rx="1" fill="white"/>
+    <rect x="33" y="76" width="12" height="2" rx="1" fill="white"/>
+  </g>
+  
+  <!-- Briefcase -->
+  <g fill="white" stroke="white">
+    <!-- Main briefcase body -->
+    <rect x="55" y="45" width="35" height="25" rx="4" fill="white"/>
+    <rect x="55" y="70" width="35" height="15" rx="4" fill="rgba(255,255,255,0.8)"/>
+    
+    <!-- Briefcase handle -->
+    <rect x="68" y="35" width="9" height="6" rx="2" fill="none" stroke-width="2"/>
+    
+    <!-- Briefcase clasp -->
+    <rect x="72" y="70" width="2" height="8" rx="1" fill="rgba(255,255,255,0.9)"/>
+    <circle cx="73" cy="74" r="1.5" fill="white"/>
+  </g>
+</svg>

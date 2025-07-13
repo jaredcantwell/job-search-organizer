@@ -1,0 +1,21 @@
+{
+  "name": "job-search-organizer",
+  "version": "1.0.0",
+  "description": "A web application to help manage job search activities",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:db\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:db": "docker-compose up -d",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd backend && npm run build && cd ../frontend && npm run build",
+    "lint": "cd backend && npm run lint && cd ../frontend && npm run lint",
+    "typecheck": "cd backend && npm run typecheck && cd ../frontend && npm run typecheck",
+    "db:migrate": "cd backend && npm run prisma:migrate",
+    "db:studio": "cd backend && npm run prisma:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
