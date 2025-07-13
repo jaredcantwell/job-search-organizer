@@ -4,6 +4,7 @@ import { format, isToday, isTomorrow, isThisWeek, isPast } from 'date-fns'
 import { Link } from 'react-router-dom'
 import { api } from '@/lib/api'
 import Layout from '@/components/Layout'
+import Calendar from '@/components/Calendar'
 
 interface UpcomingMeeting {
   id: string
@@ -21,6 +22,8 @@ interface UpcomingMeeting {
 
 export default function UpcomingMeetings() {
   const [filter, setFilter] = useState<'all' | 'today' | 'this-week'>('all')
+  const [view, setView] = useState<'list' | 'calendar'>('list')
+  const [currentMonth, setCurrentMonth] = useState(new Date())
 
   const { data: meetings, isLoading } = useQuery({
     queryKey: ['upcoming-meetings'],
@@ -115,17 +118,46 @@ export default function UpcomingMeetings() {
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Upcoming Meetings</h1>
-          <div className="flex items-center space-x-2">
-            <label className="text-sm font-medium text-gray-700">Filter:</label>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value as any)}
-              className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            >
-              <option value="all">All Upcoming</option>
-              <option value="today">Today</option>
-              <option value="this-week">This Week</option>
-            </select>
+          <div className="flex items-center space-x-4">
+            {/* View Toggle */}
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setView('list')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  view === 'list'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                📋 List
+              </button>
+              <button
+                onClick={() => setView('calendar')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  view === 'calendar'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                📅 Calendar
+              </button>
+            </div>
+            
+            {/* Filter (only show in list view) */}
+            {view === 'list' && (
+              <div className="flex items-center space-x-2">
+                <label className="text-sm font-medium text-gray-700">Filter:</label>
+                <select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value as any)}
+                  className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                >
+                  <option value="all">All Upcoming</option>
+                  <option value="today">Today</option>
+                  <option value="this-week">This Week</option>
+                </select>
+              </div>
+            )}
           </div>
         </div>
 
@@ -134,6 +166,12 @@ export default function UpcomingMeetings() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
             <p className="text-gray-500 mt-2">Loading meetings...</p>
           </div>
+        ) : view === 'calendar' ? (
+          <Calendar 
+            meetings={meetings || []} 
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+          />
         ) : !filteredMeetings.length ? (
           <div className="text-center py-12">
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -310,3 +348,4 @@ function MeetingCard({ meeting }: { meeting: UpcomingMeeting }) {
     </Link>
   )
 }
+

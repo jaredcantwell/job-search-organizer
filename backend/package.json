@@ -12,6 +12,7 @@
     "prisma:studio": "prisma studio",
     "prisma:push": "prisma db push",
     "db:seed": "tsx src/prisma/seed.ts",
+    "migrate:companies": "tsx scripts/migrate-companies.ts",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit"
   },

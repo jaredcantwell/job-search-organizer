@@ -3,15 +3,22 @@ import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import Layout from '@/components/Layout'
-import ContactForm from '@/components/ContactForm'
 
 interface Contact {
   id: string
   name: string
+  email: string | null
+  phone: string | null
   linkedinUrl: string | null
   notes: string | null
   company: string | null
+  companyId: string | null
+  companyRef?: {
+    id: string
+    name: string
+  }
   position: string | null
+  type: string
   lastContact: string | null
   createdAt: string
   updatedAt: string
@@ -24,7 +31,6 @@ interface Contact {
 
 export default function ContactsList() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [sortBy, setSortBy] = useState<'name' | 'company' | 'lastContact' | 'created'>('name')
 
   const { data: contacts, isLoading, error } = useQuery({
@@ -57,8 +63,8 @@ export default function ContactsList() {
           case 'name':
             return a.name.localeCompare(b.name)
           case 'company':
-            const companyA = a.company || ''
-            const companyB = b.company || ''
+            const companyA = a.companyRef?.name || a.company || ''
+            const companyB = b.companyRef?.name || b.company || ''
             return companyA.localeCompare(companyB)
           case 'lastContact':
             const dateA = a.lastContact ? new Date(a.lastContact).getTime() : 0
@@ -98,12 +104,12 @@ export default function ContactsList() {
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Contacts</h1>
-          <button
-            onClick={() => setIsCreateModalOpen(true)}
+          <Link
+            to="/contacts/new"
             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
           >
             + New Contact
-          </button>
+          </Link>
         </div>
 
         {/* Search and Sort */}
@@ -160,12 +166,12 @@ export default function ContactsList() {
               {searchTerm ? 'No contacts match your search.' : 'Get started by creating a new contact.'}
             </p>
             {!searchTerm && (
-              <button
-                onClick={() => setIsCreateModalOpen(true)}
-                className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+              <Link
+                to="/contacts/new"
+                className="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors inline-block"
               >
                 + New Contact
-              </button>
+              </Link>
             )}
           </div>
         ) : (
@@ -187,8 +193,8 @@ export default function ContactsList() {
                       )}
                     </div>
                     <div className="mt-1 flex items-center space-x-3 text-xs text-gray-500">
-                      {contact.company && (
-                        <span className="truncate">{contact.company}</span>
+                      {(contact.companyRef?.name || contact.company) && (
+                        <span className="truncate">{contact.companyRef?.name || contact.company}</span>
                       )}
                       {contact.position && (
                         <span className="truncate">{contact.position}</span>
@@ -217,16 +223,6 @@ export default function ContactsList() {
               </Link>
             ))}
           </div>
-        )}
-
-        {/* Contact Form Modal */}
-        {isCreateModalOpen && (
-          <ContactForm
-            onClose={() => setIsCreateModalOpen(false)}
-            onSuccess={() => {
-              setIsCreateModalOpen(false)
-            }}
-          />
         )}
       </div>
     </Layout>

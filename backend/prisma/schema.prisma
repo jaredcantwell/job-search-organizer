@@ -19,6 +19,8 @@ model User {
   applications Application[]
   tasks        Task[]
   documents    Document[]
+  research     Research[]
+  companies    Company[]
 }
 
 model Contact {
@@ -27,7 +29,8 @@ model Contact {
   name        String
   email       String?
   phone       String?
-  company     String?
+  company     String?  // Keep old field for backwards compatibility
+  companyId   String?  // New field for Company reference
   position    String?
   linkedinUrl String?
   notes       String?
@@ -38,6 +41,7 @@ model Contact {
   updatedAt   DateTime @updatedAt
 
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyRef    Company?       @relation(fields: [companyId], references: [id])
   communications Communication[]
   applications  Application[]
   tasks         Task[]
@@ -46,7 +50,8 @@ model Contact {
 model Application {
   id           String   @id @default(cuid())
   userId       String
-  company      String
+  company      String   // Keep old field for backwards compatibility
+  companyId    String?  // New field for Company reference
   position     String
   location     String?
   salary       String?
@@ -59,6 +64,7 @@ model Application {
   updatedAt    DateTime @updatedAt
 
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyRef   Company?     @relation(fields: [companyId], references: [id])
   contact      Contact?     @relation(fields: [contactId], references: [id])
   contactId    String?
   interviews   Interview[]
@@ -204,5 +210,97 @@ enum DocumentType {
   COVER_LETTER
   PORTFOLIO
   REFERENCE
+  OTHER
+}
+
+enum CompanySize {
+  STARTUP        // 1-10 employees
+  SMALL          // 11-50 employees
+  MEDIUM         // 51-200 employees
+  LARGE          // 201-1000 employees
+  ENTERPRISE     // 1000+ employees
+  UNKNOWN
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  website     String?
+  industry    String?
+  size        CompanySize?
+  location    String?
+  description String?
+  notes       String?
+  founded     Int?     // year founded
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  contacts     Contact[]
+  applications Application[]
+
+  @@unique([userId, name]) // Prevent duplicate company names per user
+}
+
+model Research {
+  id          String       @id @default(cuid())
+  userId      String
+  title       String
+  type        ResearchType @default(GENERAL)
+  targetId    String?      // contactId, applicationId, or companyId
+  targetType  TargetType?  // what the research is about
+  
+  // Research content
+  summary     String?
+  findings    String[]     @default([])
+  notes       String?
+  
+  // Metadata
+  importance  Priority     @default(MEDIUM)
+  tags        String[]     @default([])
+  
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  links       ResearchLink[]
+}
+
+model ResearchLink {
+  id          String   @id @default(cuid())
+  researchId  String
+  title       String
+  url         String
+  description String?
+  type        LinkType @default(OTHER)
+  createdAt   DateTime @default(now())
+  
+  research    Research @relation(fields: [researchId], references: [id], onDelete: Cascade)
+}
+
+enum ResearchType {
+  CONTACT
+  COMPANY
+  INDUSTRY
+  COMPETITIVE
+  GENERAL
+}
+
+enum TargetType {
+  CONTACT
+  APPLICATION
+  COMPANY
+}
+
+enum LinkType {
+  ARTICLE
+  VIDEO
+  SOCIAL
+  COMPANY_PAGE
+  NEWS
+  GLASSDOOR
+  LINKEDIN
+  GITHUB
   OTHER
 }

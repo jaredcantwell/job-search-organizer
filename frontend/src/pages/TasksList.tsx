@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '@/lib/api'
 import Layout from '@/components/Layout'
 import TaskForm from '@/components/TaskForm'
+import Calendar from '@/components/Calendar'
 import { format, isToday, isTomorrow, isThisWeek, isPast, isAfter } from 'date-fns'
 
 interface UnifiedTask {
@@ -48,6 +49,8 @@ export default function TasksList() {
   const [selectedFilter, setSelectedFilter] = useState<'all' | 'manual' | 'followup'>('all')
   const [selectedPriority, setSelectedPriority] = useState<string>('all')
   const [selectedStatus, setSelectedStatus] = useState<'all' | 'pending' | 'completed'>('pending')
+  const [view, setView] = useState<'list' | 'calendar'>('list')
+  const [currentMonth, setCurrentMonth] = useState(new Date())
 
   const { data: tasks, isLoading } = useQuery({
     queryKey: ['tasks', 'unified', selectedFilter, selectedPriority, selectedStatus],
@@ -261,17 +264,43 @@ export default function TasksList() {
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Tasks</h1>
-          <button
-            onClick={() => setIsCreateModalOpen(true)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-          >
-            + New Task
-          </button>
+          <div className="flex items-center space-x-4">
+            {/* View Toggle */}
+            <div className="flex bg-gray-100 rounded-lg p-1">
+              <button
+                onClick={() => setView('list')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  view === 'list'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                📋 List
+              </button>
+              <button
+                onClick={() => setView('calendar')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                  view === 'calendar'
+                    ? 'bg-white text-gray-900 shadow-sm'
+                    : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                📅 Calendar
+              </button>
+            </div>
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              + New Task
+            </button>
+          </div>
         </div>
 
-        {/* Filters */}
-        <div className="mb-6 space-y-4">
-          <div className="flex flex-wrap gap-4">
+        {/* Filters (only show in list view) */}
+        {view === 'list' && (
+          <div className="mb-6 space-y-4">
+            <div className="flex flex-wrap gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Source</label>
               <select
@@ -312,11 +341,23 @@ export default function TasksList() {
               </select>
             </div>
           </div>
-        </div>
+          </div>
+        )}
 
-        {/* Task Groups */}
-        <div className="space-y-6">
-          {groupedTasks.overdue.length > 0 && (
+        {/* Calendar or List View */}
+        {view === 'calendar' ? (
+          <Calendar 
+            tasks={tasks || []} 
+            currentMonth={currentMonth}
+            setCurrentMonth={setCurrentMonth}
+            navigate={navigate}
+            onTaskClick={handleTaskClick}
+            onTaskToggle={(task) => toggleTaskMutation.mutate({ id: task.id, type: task.type })}
+            showTaskCheckboxes={true}
+          />
+        ) : (
+          <div className="space-y-6">
+            {groupedTasks.overdue.length > 0 && (
             <div>
               <h2 className="text-lg font-semibold text-red-600 mb-3">Overdue ({groupedTasks.overdue.length})</h2>
               <div className="space-y-3">
@@ -388,7 +429,8 @@ export default function TasksList() {
               </button>
             </div>
           )}
-        </div>
+          </div>
+        )}
 
         {/* Task Form Modal */}
         {(isCreateModalOpen || editingTask) && (
@@ -409,3 +451,4 @@ export default function TasksList() {
     </Layout>
   )
 }
+

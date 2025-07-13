@@ -4,6 +4,12 @@ import LoginPage from './pages/Login'
 import DashboardPage from './pages/Dashboard'
 import ContactsList from './pages/ContactsList'
 import ContactDetail from './pages/ContactDetail'
+import AddContact from './pages/AddContact'
+import EditContact from './pages/EditContact'
+import Companies from './pages/Companies'
+import CompanyDetail from './pages/CompanyDetail'
+import AddCompany from './pages/AddCompany'
+import EditCompany from './pages/EditCompany'
 import TasksList from './pages/TasksList'
 import UpcomingMeetings from './pages/UpcomingMeetings'
 
@@ -26,8 +32,32 @@ function App() {
           element={isAuthenticated ? <ContactsList /> : <Navigate to="/login" />} 
         />
         <Route 
+          path="/contacts/new" 
+          element={isAuthenticated ? <AddContact /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/contacts/:id/edit" 
+          element={isAuthenticated ? <EditContact /> : <Navigate to="/login" />} 
+        />
+        <Route 
           path="/contacts/:id" 
           element={isAuthenticated ? <ContactDetail /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/companies" 
+          element={isAuthenticated ? <Companies /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/companies/new" 
+          element={isAuthenticated ? <AddCompany /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/companies/:id/edit" 
+          element={isAuthenticated ? <EditCompany /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/companies/:id" 
+          element={isAuthenticated ? <CompanyDetail /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/tasks" 
