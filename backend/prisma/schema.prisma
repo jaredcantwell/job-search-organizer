@@ -222,6 +222,14 @@ enum CompanySize {
   UNKNOWN
 }
 
+enum CompanyStatus {
+  OPPORTUNITY    // Active opportunity (connection, referral, outstanding application)
+  TARGET         // High-priority company to actively pursue
+  RESEARCH       // Companies being researched or evaluated
+  WATCHING       // Companies to monitor but not actively pursuing
+  ARCHIVED       // Not currently relevant or opportunity has passed
+}
+
 model Company {
   id          String   @id @default(cuid())
   userId      String
@@ -233,6 +241,7 @@ model Company {
   description String?
   notes       String?
   founded     Int?     // year founded
+  status      CompanyStatus @default(TARGET)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
