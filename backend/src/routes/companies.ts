@@ -18,11 +18,12 @@ const companySchema = z.object({
   description: z.string().optional(),
   notes: z.string().optional(),
   founded: z.number().int().min(1800).max(new Date().getFullYear()).optional(),
+  status: z.enum(['OPPORTUNITY', 'TARGET', 'RESEARCH', 'WATCHING', 'ARCHIVED']).optional(),
 });
 
 // Get all companies for user
 router.get('/', async (req: AuthRequest, res) => {
-  const { search, industry, size } = req.query;
+  const { search, industry, size, status } = req.query;
   
   const where: any = {
     userId: req.userId!,
@@ -37,6 +38,7 @@ router.get('/', async (req: AuthRequest, res) => {
   
   if (industry) where.industry = industry;
   if (size) where.size = size;
+  if (status) where.status = status;
 
   const companies = await prisma.company.findMany({
     where,
@@ -48,9 +50,14 @@ router.get('/', async (req: AuthRequest, res) => {
         },
       },
     },
-    orderBy: {
-      name: 'asc',
-    },
+    orderBy: [
+      {
+        status: 'asc', // Order by status priority: OPPORTUNITY, TARGET, RESEARCH, WATCHING, ARCHIVED
+      },
+      {
+        name: 'asc',
+      },
+    ],
   });
 
   res.json(companies);

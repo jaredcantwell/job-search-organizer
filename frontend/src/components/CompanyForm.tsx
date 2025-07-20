@@ -24,6 +24,7 @@ export default function CompanyForm({ company, onClose, onSuccess }: CompanyForm
     description: '',
     notes: '',
     founded: '',
+    status: '',
   })
 
   useEffect(() => {
@@ -37,6 +38,7 @@ export default function CompanyForm({ company, onClose, onSuccess }: CompanyForm
         description: company.description || '',
         notes: company.notes || '',
         founded: company.founded ? company.founded.toString() : '',
+        status: company.status || '',
       })
     }
   }, [company])
@@ -128,6 +130,25 @@ export default function CompanyForm({ company, onClose, onSuccess }: CompanyForm
           className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="Enter company name..."
         />
+      </div>
+
+      {/* Status */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Status
+        </label>
+        <select
+          value={formData.status}
+          onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+        >
+          <option value="">Select status...</option>
+          <option value="OPPORTUNITY">Opportunity</option>
+          <option value="TARGET">Target</option>
+          <option value="RESEARCH">Research</option>
+          <option value="WATCHING">Watching</option>
+          <option value="ARCHIVED">Archived</option>
+        </select>
       </div>
 
       {/* Website */}

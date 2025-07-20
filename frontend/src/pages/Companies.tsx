@@ -12,6 +12,7 @@ interface Company {
   size: string | null
   location: string | null
   description: string | null
+  status: string
   _count: {
     applications: number
     contacts: number
@@ -24,14 +25,16 @@ export default function Companies() {
   const [search, setSearch] = useState('')
   const [industryFilter, setIndustryFilter] = useState('')
   const [sizeFilter, setSizeFilter] = useState('')
+  const [statusFilter, setStatusFilter] = useState('')
 
   const { data: companies, isLoading } = useQuery({
-    queryKey: ['companies', search, industryFilter, sizeFilter],
+    queryKey: ['companies', search, industryFilter, sizeFilter, statusFilter],
     queryFn: async (): Promise<Company[]> => {
       const params = new URLSearchParams()
       if (search) params.append('search', search)
       if (industryFilter) params.append('industry', industryFilter)
       if (sizeFilter) params.append('size', sizeFilter)
+      if (statusFilter) params.append('status', statusFilter)
       
       const response = await api.get(`/companies?${params.toString()}`)
       return response.data
@@ -60,8 +63,31 @@ export default function Companies() {
     }
   }
 
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'OPPORTUNITY': return 'Opportunity'
+      case 'TARGET': return 'Target'
+      case 'RESEARCH': return 'Research'
+      case 'WATCHING': return 'Watching'
+      case 'ARCHIVED': return 'Archived'
+      default: return status
+    }
+  }
+
+  const getStatusBadgeColor = (status: string) => {
+    switch (status) {
+      case 'OPPORTUNITY': return 'bg-green-100 text-green-800'
+      case 'TARGET': return 'bg-blue-100 text-blue-800'
+      case 'RESEARCH': return 'bg-yellow-100 text-yellow-800'
+      case 'WATCHING': return 'bg-purple-100 text-purple-800'
+      case 'ARCHIVED': return 'bg-gray-100 text-gray-800'
+      default: return 'bg-gray-100 text-gray-800'
+    }
+  }
+
   const uniqueIndustries = [...new Set(companies?.map(c => c.industry).filter(Boolean))]
   const uniqueSizes = [...new Set(companies?.map(c => c.size).filter(Boolean))]
+  const uniqueStatuses = [...new Set(companies?.map(c => c.status).filter(Boolean))]
 
   return (
     <Layout>
@@ -83,7 +109,7 @@ export default function Companies() {
 
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Search
@@ -95,6 +121,22 @@ export default function Companies() {
                 placeholder="Search companies..."
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Status
+              </label>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="">All Statuses</option>
+                {uniqueStatuses.map(status => (
+                  <option key={status} value={status || ''}>{getStatusLabel(status)}</option>
+                ))}
+              </select>
             </div>
             
             <div>
@@ -144,12 +186,12 @@ export default function Companies() {
             </svg>
             <h3 className="mt-2 text-sm font-medium text-gray-900">No companies yet</h3>
             <p className="mt-1 text-sm text-gray-500">
-              {search || industryFilter || sizeFilter
+              {search || industryFilter || sizeFilter || statusFilter
                 ? 'No companies match your filters.'
                 : 'Get started by adding your first company.'
               }
             </p>
-            {!search && !industryFilter && !sizeFilter && (
+            {!search && !industryFilter && !sizeFilter && !statusFilter && (
               <Link
                 to="/companies/new"
                 className="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
@@ -175,11 +217,16 @@ export default function Companies() {
                       <p className="text-sm text-gray-600 mt-1">{company.industry}</p>
                     )}
                   </div>
-                  {company.size && (
-                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getSizeBadgeColor(company.size)}`}>
-                      {getSizeLabel(company.size)}
+                  <div className="flex flex-col items-end space-y-2">
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusBadgeColor(company.status)}`}>
+                      {getStatusLabel(company.status)}
                     </span>
-                  )}
+                    {company.size && (
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getSizeBadgeColor(company.size)}`}>
+                        {getSizeLabel(company.size)}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
                 {company.description && (
